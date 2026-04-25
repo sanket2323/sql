@@ -82,5 +82,17 @@ CREATE TABLE `Payment`
     payment_method ENUM ('card','cash','wallet'),
     amount_paid    DECIMAL(8, 2) NOT NULL,
     payment_status ENUM ('paid','pending','failed'),
-    trip_id        INT references Trip (trip_id)
+    trip_id        INT REFERENCES Trip (trip_id)
+);
+
+#Review
+CREATE TABLE `Review`
+(
+    trip_id INT REFERENCES Trip(trip_id),
+    review_no INT NOT NULL,
+    PRIMARY KEY (trip_id, review_no),
+    rating INT CHECK ( rating >= 1 and rating <= 5 ),
+    comment VARCHAR(300),
+    review_date DATE NOT NULL,
+    payment_id INT REFERENCES Payment(payment_id)
 )

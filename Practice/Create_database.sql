@@ -1,5 +1,5 @@
-CREATE DATABASE sql_practice;
-USE sql_practice;
+CREATE DATABASE sql_practice_school;
+USE sql_practice_school;
 
 CREATE TABLE Departments (
     dept_id INT PRIMARY KEY,

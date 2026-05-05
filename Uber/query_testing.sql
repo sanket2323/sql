@@ -1,8 +1,8 @@
 # Query 1: Get all trips for a specific rider (with driver name)
 SELECT t.trip_id,
        t.trip_date_time,
-       CONCAT(ur.first_name, ' ', ur.last_name)                     AS Rider_name,
-       CONCAT(ud.first_name, ' ', ud.last_name)                     AS Driver_name,
+       CONCAT(ur.first_name, ' ', ur.last_name) AS Rider_name,
+       CONCAT(ud.first_name, ' ', ud.last_name) AS Driver_name,
        t.fare_amount,
        CONCAT(t.pickup_location_id, ' and ', t.dropoff_location_id) AS PickUP_and_DropOff,
        t.trip_status,
@@ -12,7 +12,6 @@ FROM Trip AS t
          JOIN Driver AS d ON t.driver_id = d.user_id
          JOIN User AS ur ON r.user_id = ur.user_id
          JOIN User AS ud ON d.user_id = ud.user_id;
-
 
 # Query 2: Calculates the minimum, maximum, average fare and total number of trips across the entire platform.
 SELECT COUNT(t.trip_id)   AS Total_trips,

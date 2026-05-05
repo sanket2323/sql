@@ -18,7 +18,7 @@ CREATE TABLE `User_Phone`
     user_id INT,
     phone   VARCHAR(15) NOT NULL,
     PRIMARY KEY (user_id, phone),
-    FOREIGN KEY (user_id) REFERENCES User (user_id)
+    FOREIGN KEY (user_id) REFERENCES User (user_id) ON DELETE CASCADE
 );
 
 # rider Table
@@ -26,7 +26,7 @@ CREATE TABLE `Rider`
 (
     user_id           INT PRIMARY KEY,
     registration_date DATE NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES User (user_id)
+    FOREIGN KEY (user_id) REFERENCES User (user_id) ON DELETE CASCADE
 );
 
 #driver Table
@@ -35,7 +35,7 @@ CREATE TABLE `Driver`
     user_id        INT PRIMARY KEY,
     licence_number VARCHAR(30) UNIQUE NOT NULL,
     driver_status  ENUM ('active','inactive') DEFAULT 'inactive',
-    FOREIGN KEY (user_id) REFERENCES User (user_id)
+    FOREIGN KEY (user_id) REFERENCES User (user_id) ON DELETE CASCADE
 );
 
 #Vehicle Table
@@ -47,7 +47,7 @@ CREATE TABLE `Vehicle`
     color               VARCHAR(30)        NOT NULL,
     capacity            INT CHECK ( capacity > 0 ),
     driver_id           INT,
-    FOREIGN KEY (driver_id) REFERENCES Driver (user_id)
+    FOREIGN KEY (driver_id) REFERENCES Driver (user_id) ON DELETE CASCADE
 );
 
 #Location
@@ -67,8 +67,8 @@ CREATE TABLE `Trip`
     distance_km         DECIMAL(7, 2) CHECK ( distance_km > 0 ),
     fare_amount         DECIMAL(9, 2) CHECK ( fare_amount > 0 ),
     trip_status         ENUM ('requested','ongoing','completed','cancelled'),
-    rider_id            INT      NOT NULL REFERENCES Rider (user_id),
-    driver_id           INT      NOT NULL REFERENCES Driver (user_id),
+    rider_id            INT      NOT NULL REFERENCES Rider (user_id) ON DELETE CASCADE,
+    driver_id           INT      NOT NULL REFERENCES Driver (user_id) ON DELETE CASCADE,
     vehicle_id          INT      NOT NULL REFERENCES Vehicle (vehicle_id),
     pickup_location_id  INT REFERENCES Location (location_id),
     dropoff_location_id INT REFERENCES Location (location_id)

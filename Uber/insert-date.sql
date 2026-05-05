@@ -21,6 +21,7 @@ VALUES (1, 'James', 'Wilson', 'james.wilson@gmail.com', '1990-03-15'),
        (19, 'Oliver', 'Adams', 'oliver.a@gmail.com', '1992-06-11'),
        (20, 'Aisha', 'Patel', 'aisha.p@gmail.com', '1996-03-25');
 
+
 #This is user number
 INSERT INTO User_Phone
 VALUES (1, '0411 111 111'),

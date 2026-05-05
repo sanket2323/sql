@@ -1,0 +1,496 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.3
+-- https://www.phpmyadmin.net/
+--
+-- Host: localhost
+-- Generation Time: May 05, 2026 at 11:58 AM
+-- Server version: 8.4.8
+-- PHP Version: 8.4.17
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `Uber`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Driver`
+--
+
+CREATE TABLE `Driver` (
+  `user_id` int NOT NULL,
+  `licence_number` varchar(30) NOT NULL,
+  `driver_status` enum('active','inactive') DEFAULT 'inactive'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Driver`
+--
+
+INSERT INTO `Driver` (`user_id`, `licence_number`, `driver_status`) VALUES
+(1, 'LIC-NSW-1001', 'active'),
+(2, 'LIC-NSW-1002', 'inactive'),
+(3, 'LIC-NSW-1003', 'active'),
+(4, 'LIC-NSW-1004', 'active'),
+(5, 'LIC-NSW-1005', 'inactive'),
+(6, 'LIC-NSW-1006', 'active'),
+(7, 'LIC-NSW-1007', 'active'),
+(8, 'LIC-NSW-1008', 'inactive'),
+(9, 'LIC-NSW-1009', 'active'),
+(10, 'LIC-NSW-1010', 'active'),
+(11, 'LIC-VIC-2001', 'active'),
+(12, 'LIC-VIC-2002', 'inactive'),
+(13, 'LIC-VIC-2003', 'active'),
+(14, 'LIC-QLD-3001', 'active'),
+(15, 'LIC-QLD-3002', 'inactive'),
+(16, 'LIC-QLD-3003', 'active'),
+(17, 'LIC-WA-4001', 'active'),
+(18, 'LIC-WA-4002', 'inactive'),
+(19, 'LIC-SA-5001', 'active'),
+(20, 'LIC-SA-5002', 'active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Location`
+--
+
+CREATE TABLE `Location` (
+  `location_id` int NOT NULL,
+  `location_name` varchar(100) NOT NULL,
+  `city` varchar(50) NOT NULL,
+  `postcode` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Location`
+--
+
+INSERT INTO `Location` (`location_id`, `location_name`, `city`, `postcode`) VALUES
+(1, 'Sydney CBD', 'Sydney', '2000'),
+(2, 'Parramatta Station', 'Parramatta', '2150'),
+(3, 'Bondi Beach', 'Bondi', '2026'),
+(4, 'Chatswood Mall', 'Chatswood', '2067'),
+(5, 'Liverpool Station', 'Liverpool', '2170'),
+(6, 'Manly Wharf', 'Manly', '2095'),
+(7, 'Newtown Square', 'Newtown', '2042'),
+(8, 'Penrith Station', 'Penrith', '2750'),
+(9, 'Strathfield Station', 'Strathfield', '2135'),
+(10, 'Darling Harbour', 'Sydney', '2009'),
+(11, 'Melbourne CBD', 'Melbourne', '3000'),
+(12, 'Brisbane CBD', 'Brisbane', '4000'),
+(13, 'Perth CBD', 'Perth', '6000'),
+(14, 'Adelaide CBD', 'Adelaide', '5000'),
+(15, 'Gold Coast Airport', 'Gold Coast', '4225'),
+(16, 'Sydney Airport', 'Mascot', '2020'),
+(17, 'Central Station', 'Sydney', '2000'),
+(18, 'Circular Quay', 'Sydney', '2000'),
+(19, 'Surry Hills', 'Sydney', '2010'),
+(20, 'Coogee Beach', 'Coogee', '2034');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Payment`
+--
+
+CREATE TABLE `Payment` (
+  `payment_id` int NOT NULL,
+  `payment_date` date NOT NULL,
+  `payment_method` enum('card','cash','wallet') DEFAULT NULL,
+  `amount_paid` decimal(8,2) NOT NULL,
+  `payment_status` enum('paid','pending','failed') DEFAULT NULL,
+  `trip_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Payment`
+--
+
+INSERT INTO `Payment` (`payment_id`, `payment_date`, `payment_method`, `amount_paid`, `payment_status`, `trip_id`) VALUES
+(1, '2024-01-05', 'card', 25.00, 'paid', 1),
+(2, '2024-01-06', 'wallet', 18.50, 'paid', 2),
+(3, '2024-01-07', 'cash', 42.00, 'paid', 3),
+(4, '2024-01-08', 'card', 12.00, 'failed', 4),
+(5, '2024-01-09', 'wallet', 33.00, 'paid', 5),
+(6, '2024-01-12', 'cash', 19.00, 'paid', 6),
+(7, '2024-01-15', 'card', 24.00, 'paid', 7),
+(8, '2024-01-18', 'wallet', 14.50, 'paid', 8),
+(9, '2024-01-20', 'card', 39.00, 'paid', 9),
+(10, '2024-01-22', 'cash', 9.00, 'failed', 10),
+(11, '2024-02-01', 'card', 48.00, 'paid', 11),
+(12, '2024-02-03', 'wallet', 16.50, 'paid', 12),
+(13, '2024-02-05', 'cash', 30.00, 'paid', 13),
+(14, '2024-02-08', 'card', 10.50, 'failed', 14),
+(15, '2024-02-10', 'wallet', 65.00, 'paid', 15),
+(16, '2024-02-14', 'card', 21.00, 'paid', 16),
+(17, '2024-02-18', 'cash', 36.00, 'paid', 17),
+(18, '2024-02-20', 'wallet', 13.50, 'paid', 18),
+(19, '2024-02-25', 'card', 54.00, 'pending', 19),
+(20, '2024-02-28', 'cash', 26.00, 'pending', 20),
+(21, '2024-03-01', 'card', 22.00, 'paid', 21),
+(22, '2024-03-02', 'wallet', 14.00, 'paid', 22),
+(23, '2024-03-03', 'card', 58.00, 'paid', 23),
+(24, '2024-03-04', 'cash', 11.00, 'failed', 24),
+(25, '2024-03-05', 'wallet', 41.00, 'paid', 25),
+(26, '2024-03-06', 'card', 19.50, 'paid', 26),
+(27, '2024-03-07', 'cash', 72.00, 'paid', 27),
+(28, '2024-03-08', 'wallet', 16.00, 'paid', 28),
+(29, '2024-03-09', 'card', 28.50, 'failed', 29),
+(30, '2024-03-10', 'card', 88.00, 'paid', 30);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Review`
+--
+
+CREATE TABLE `Review` (
+  `trip_id` int NOT NULL,
+  `review_no` int NOT NULL,
+  `rating` int DEFAULT NULL,
+  `comment` varchar(300) DEFAULT NULL,
+  `review_date` date NOT NULL,
+  `payment_id` int DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `Review`
+--
+
+INSERT INTO `Review` (`trip_id`, `review_no`, `rating`, `comment`, `review_date`, `payment_id`) VALUES
+(1, 1, 5, 'Excellent ride, very smooth!', '2024-01-05', 1),
+(1, 2, 4, 'Great driver, very professional.', '2024-01-05', 1),
+(2, 1, 4, 'Good driver, arrived on time.', '2024-01-06', 2),
+(2, 2, 3, 'Car was a bit dusty inside.', '2024-01-06', 2),
+(3, 1, 5, 'Amazing trip, highly recommended!', '2024-01-07', 3),
+(5, 1, 5, 'Loved the ride, super clean car.', '2024-01-09', 5),
+(5, 2, 4, 'Driver was friendly and helpful.', '2024-01-09', 5),
+(6, 1, 3, 'Average experience, bit slow.', '2024-01-12', 6),
+(7, 1, 4, 'Good trip, comfortable vehicle.', '2024-01-15', 7),
+(7, 2, 5, 'Will definitely book again!', '2024-01-15', 7),
+(8, 1, 2, 'Driver took a longer route.', '2024-01-18', 8),
+(9, 1, 5, 'Perfect ride, no complaints at all.', '2024-01-20', 9),
+(11, 1, 4, 'Smooth ride to the airport.', '2024-02-01', 11),
+(11, 2, 5, 'Driver helped with luggage, great!', '2024-02-01', 11),
+(12, 1, 3, 'Okay ride, nothing special.', '2024-02-03', 12),
+(13, 1, 5, 'Best Uber ride I have ever had!', '2024-02-05', 13),
+(15, 1, 4, 'Long trip but very comfortable.', '2024-02-10', 15),
+(16, 1, 5, 'Driver was polite and punctual.', '2024-02-14', 16),
+(17, 1, 4, 'Nice car, smooth drive overall.', '2024-02-18', 17),
+(18, 1, 3, 'Decent ride but AC was weak.', '2024-02-20', 18);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Rider`
+--
+
+CREATE TABLE `Rider` (
+  `user_id` int NOT NULL,
+  `registration_date` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `Rider`
+--
+
+INSERT INTO `Rider` (`user_id`, `registration_date`) VALUES
+(1, '2022-01-10'),
+(2, '2021-06-15'),
+(3, '2023-03-20'),
+(4, '2022-09-05'),
+(5, '2020-11-30'),
+(6, '2023-07-12'),
+(7, '2021-04-18'),
+(8, '2022-12-01'),
+(9, '2023-01-25'),
+(10, '2020-08-08'),
+(11, '2022-05-14'),
+(12, '2023-09-01'),
+(13, '2021-02-28'),
+(14, '2022-07-19'),
+(15, '2020-10-05'),
+(16, '2023-11-11'),
+(17, '2021-08-22'),
+(18, '2022-03-30'),
+(19, '2023-06-06'),
+(20, '2020-12-15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Trip`
+--
+
+CREATE TABLE `Trip` (
+  `trip_id` int NOT NULL,
+  `trip_date_time` datetime NOT NULL,
+  `distance_km` decimal(7,2) DEFAULT NULL,
+  `fare_amount` decimal(9,2) DEFAULT NULL,
+  `trip_status` enum('requested','ongoing','completed','cancelled') DEFAULT NULL,
+  `rider_id` int NOT NULL,
+  `driver_id` int NOT NULL,
+  `vehicle_id` int NOT NULL,
+  `pickup_location_id` int DEFAULT NULL,
+  `dropoff_location_id` int DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `Trip`
+--
+
+INSERT INTO `Trip` (`trip_id`, `trip_date_time`, `distance_km`, `fare_amount`, `trip_status`, `rider_id`, `driver_id`, `vehicle_id`, `pickup_location_id`, `dropoff_location_id`) VALUES
+(1, '2024-01-05 08:15:00', 12.50, 25.00, 'completed', 1, 2, 2, 1, 2),
+(2, '2024-01-06 09:30:00', 8.30, 18.50, 'completed', 3, 4, 4, 3, 4),
+(3, '2024-01-07 14:00:00', 20.10, 42.00, 'completed', 5, 6, 6, 5, 6),
+(4, '2024-01-08 17:45:00', 5.60, 12.00, 'cancelled', 7, 8, 8, 7, 8),
+(5, '2024-01-09 10:00:00', 15.80, 33.00, 'completed', 9, 10, 10, 9, 10),
+(6, '2024-01-12 07:30:00', 9.20, 19.00, 'completed', 2, 1, 1, 2, 3),
+(7, '2024-01-15 13:20:00', 11.40, 24.00, 'completed', 4, 3, 3, 4, 5),
+(8, '2024-01-18 16:00:00', 6.70, 14.50, 'completed', 6, 5, 5, 6, 7),
+(9, '2024-01-20 11:30:00', 18.90, 39.00, 'completed', 8, 7, 7, 8, 9),
+(10, '2024-01-22 09:00:00', 3.40, 9.00, 'cancelled', 10, 9, 9, 10, 1),
+(11, '2024-02-01 08:00:00', 22.30, 48.00, 'completed', 11, 12, 12, 11, 12),
+(12, '2024-02-03 10:45:00', 7.80, 16.50, 'completed', 13, 14, 14, 13, 14),
+(13, '2024-02-05 15:30:00', 14.60, 30.00, 'completed', 15, 16, 16, 15, 16),
+(14, '2024-02-08 18:00:00', 4.20, 10.50, 'cancelled', 17, 18, 18, 17, 18),
+(15, '2024-02-10 07:15:00', 31.50, 65.00, 'completed', 19, 20, 20, 16, 3),
+(16, '2024-02-14 12:00:00', 9.90, 21.00, 'completed', 20, 19, 19, 18, 7),
+(17, '2024-02-18 14:30:00', 17.20, 36.00, 'completed', 12, 11, 11, 12, 13),
+(18, '2024-02-20 09:45:00', 6.10, 13.50, 'completed', 14, 13, 13, 14, 15),
+(19, '2024-02-25 16:15:00', 25.80, 54.00, 'ongoing', 16, 15, 15, 19, 20),
+(20, '2024-02-28 08:30:00', 11.70, 26.00, 'requested', 18, 17, 17, 17, 18),
+(21, '2024-03-01 07:00:00', 10.20, 22.00, 'completed', 1, 3, 3, 1, 4),
+(22, '2024-03-02 08:45:00', 6.50, 14.00, 'completed', 2, 4, 4, 2, 5),
+(23, '2024-03-03 12:30:00', 28.40, 58.00, 'completed', 3, 5, 5, 16, 3),
+(24, '2024-03-04 15:00:00', 4.80, 11.00, 'cancelled', 4, 6, 6, 4, 7),
+(25, '2024-03-05 17:30:00', 19.60, 41.00, 'completed', 5, 7, 7, 5, 8),
+(26, '2024-03-06 09:15:00', 8.90, 19.50, 'completed', 6, 8, 8, 6, 9),
+(27, '2024-03-07 11:00:00', 35.20, 72.00, 'completed', 7, 9, 9, 16, 11),
+(28, '2024-03-08 14:45:00', 7.30, 16.00, 'completed', 8, 10, 10, 8, 10),
+(29, '2024-03-09 18:00:00', 13.10, 28.50, 'cancelled', 9, 11, 11, 9, 12),
+(30, '2024-03-10 06:30:00', 42.50, 88.00, 'completed', 10, 12, 12, 16, 13);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `User`
+--
+
+CREATE TABLE `User` (
+  `user_id` int NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `dob` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `User`
+--
+
+INSERT INTO `User` (`user_id`, `first_name`, `last_name`, `email`, `dob`) VALUES
+(1, 'James', 'Wilson', 'james.wilson@gmail.com', '1990-03-15'),
+(2, 'Sarah', 'Connor', 'sarah.connor@gmail.com', '1985-07-22'),
+(3, 'Mike', 'Johnson', 'mike.j@gmail.com', '1992-11-08'),
+(4, 'Emily', 'Davis', 'emily.d@gmail.com', '1995-04-30'),
+(5, 'Robert', 'Brown', 'robert.b@gmail.com', '1988-09-12'),
+(6, 'Lisa', 'Taylor', 'lisa.t@gmail.com', '1993-01-25'),
+(7, 'David', 'Martinez', 'david.m@gmail.com', '1987-06-18'),
+(8, 'Anna', 'White', 'anna.w@gmail.com', '1996-12-05'),
+(9, 'Chris', 'Lee', 'chris.l@gmail.com', '1991-08-14'),
+(10, 'Priya', 'Sharma', 'priya.s@gmail.com', '1994-02-28'),
+(11, 'Daniel', 'Harris', 'daniel.h@gmail.com', '1989-05-10'),
+(12, 'Sophie', 'Clark', 'sophie.c@gmail.com', '1997-09-03'),
+(13, 'Liam', 'Walker', 'liam.w@gmail.com', '1986-12-20'),
+(14, 'Chloe', 'Hall', 'chloe.h@gmail.com', '1993-07-08'),
+(15, 'Nathan', 'Young', 'nathan.y@gmail.com', '1990-11-15'),
+(16, 'Megan', 'King', 'megan.k@gmail.com', '1998-04-22'),
+(17, 'Ethan', 'Scott', 'ethan.s@gmail.com', '1984-08-30'),
+(18, 'Jessica', 'Green', 'jessica.g@gmail.com', '1995-01-17'),
+(19, 'Oliver', 'Adams', 'oliver.a@gmail.com', '1992-06-11'),
+(20, 'Aisha', 'Patel', 'aisha.p@gmail.com', '1996-03-25');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `User_Phone`
+--
+
+CREATE TABLE `User_Phone` (
+  `user_id` int NOT NULL,
+  `phone` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `User_Phone`
+--
+
+INSERT INTO `User_Phone` (`user_id`, `phone`) VALUES
+(1, '0411 111 111'),
+(2, '0422 222 222'),
+(3, '0433 333 333'),
+(4, '0444 444 444'),
+(5, '0455 555 555'),
+(6, '0466 666 666'),
+(7, '0477 777 777'),
+(8, '0488 888 888'),
+(9, '0499 999 999'),
+(10, '0400 000 000'),
+(11, '0412 345 678'),
+(12, '0423 456 789'),
+(13, '0434 567 890'),
+(14, '0445 678 901'),
+(15, '0456 789 012'),
+(16, '0467 890 123'),
+(17, '0478 901 234'),
+(18, '0489 012 345'),
+(19, '0490 123 456'),
+(20, '0401 234 567');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `Vehicle`
+--
+
+CREATE TABLE `Vehicle` (
+  `vehicle_id` int NOT NULL,
+  `registration_number` varchar(20) NOT NULL,
+  `model` varchar(50) NOT NULL,
+  `color` varchar(30) NOT NULL,
+  `capacity` int DEFAULT NULL,
+  `driver_id` int DEFAULT NULL
+) ;
+
+--
+-- Dumping data for table `Vehicle`
+--
+
+INSERT INTO `Vehicle` (`vehicle_id`, `registration_number`, `model`, `color`, `capacity`, `driver_id`) VALUES
+(1, '1ABC001', 'Toyota Camry', 'White', 4, 1),
+(2, '2BCD002', 'Honda Civic', 'Black', 4, 2),
+(3, '3CDE003', 'Ford Ranger', 'Silver', 5, 3),
+(4, '4DEF004', 'Hyundai i30', 'Blue', 4, 4),
+(5, '5EFG005', 'Kia Sportage', 'Red', 5, 5),
+(6, '6FGH006', 'Mazda CX-5', 'Grey', 5, 6),
+(7, '7GHI007', 'Subaru Outback', 'Green', 5, 7),
+(8, '8HIJ008', 'Nissan X-Trail', 'White', 7, 8),
+(9, '9IJK009', 'Toyota RAV4', 'Black', 5, 9),
+(10, '0JKL010', 'Tesla Model 3', 'White', 4, 10),
+(11, '1KLM011', 'Mitsubishi ASX', 'Blue', 5, 11),
+(12, '2LMN012', 'Honda CR-V', 'Silver', 5, 12),
+(13, '3MNO013', 'Toyota HiAce', 'White', 12, 13),
+(14, '4NOP014', 'Volkswagen Golf', 'Black', 4, 14),
+(15, '5OPQ015', 'BMW 3 Series', 'Grey', 4, 15),
+(16, '6PQR016', 'Mercedes C-Class', 'Black', 4, 16),
+(17, '7QRS017', 'Ford Mustang', 'Red', 4, 17),
+(18, '8RST018', 'Audi A4', 'White', 4, 18),
+(19, '9STU019', 'Lexus ES', 'Silver', 5, 19),
+(20, '0TUV020', 'Kia Carnival', 'Grey', 8, 20);
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `Driver`
+--
+ALTER TABLE `Driver`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `licence_number` (`licence_number`);
+
+--
+-- Indexes for table `Location`
+--
+ALTER TABLE `Location`
+  ADD PRIMARY KEY (`location_id`);
+
+--
+-- Indexes for table `Payment`
+--
+ALTER TABLE `Payment`
+  ADD PRIMARY KEY (`payment_id`);
+
+--
+-- Indexes for table `Review`
+--
+ALTER TABLE `Review`
+  ADD PRIMARY KEY (`trip_id`,`review_no`);
+
+--
+-- Indexes for table `Rider`
+--
+ALTER TABLE `Rider`
+  ADD PRIMARY KEY (`user_id`);
+
+--
+-- Indexes for table `Trip`
+--
+ALTER TABLE `Trip`
+  ADD PRIMARY KEY (`trip_id`);
+
+--
+-- Indexes for table `User`
+--
+ALTER TABLE `User`
+  ADD PRIMARY KEY (`user_id`),
+  ADD UNIQUE KEY `email` (`email`);
+
+--
+-- Indexes for table `User_Phone`
+--
+ALTER TABLE `User_Phone`
+  ADD PRIMARY KEY (`user_id`,`phone`);
+
+--
+-- Indexes for table `Vehicle`
+--
+ALTER TABLE `Vehicle`
+  ADD PRIMARY KEY (`vehicle_id`),
+  ADD UNIQUE KEY `registration_number` (`registration_number`),
+  ADD KEY `driver_id` (`driver_id`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `Driver`
+--
+ALTER TABLE `Driver`
+  ADD CONSTRAINT `Driver_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `Rider`
+--
+ALTER TABLE `Rider`
+  ADD CONSTRAINT `Rider_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `User_Phone`
+--
+ALTER TABLE `User_Phone`
+  ADD CONSTRAINT `User_Phone_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `User` (`user_id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `Vehicle`
+--
+ALTER TABLE `Vehicle`
+  ADD CONSTRAINT `Vehicle_ibfk_1` FOREIGN KEY (`driver_id`) REFERENCES `Driver` (`user_id`) ON DELETE CASCADE;
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
